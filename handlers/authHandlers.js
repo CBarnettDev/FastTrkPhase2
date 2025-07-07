@@ -42,11 +42,11 @@ export async function signupHandler(request, reply) {
       email: user.email,
     });
  reply.setCookie("token", token, {
-      httpOnly: true,
-      secure: true, 
-      domain: '.fasttrak.ai',
-      sameSite: "lax", 
-      path: "/",
+      // httpOnly: true,
+      // secure: true, 
+      // domain: '.fasttrak.ai',
+      // sameSite: "lax", 
+      // path: "/",
       maxAge: 60 * 60 * 24 * 7,
     });
     return reply.code(201).send({
@@ -96,11 +96,11 @@ export async function loginHandler(request, reply) {
     });
 
     reply.setCookie("token", token, {
-      httpOnly: true,
-      secure: true, 
-      domain: '.fasttrak.ai',
-      sameSite: "lax",
-      path: "/",
+      // httpOnly: true,
+      // secure: true, 
+      // domain: '.fasttrak.ai',
+      // sameSite: "lax",
+      // path: "/",
       maxAge: 60 * 60 * 24 * 7,
     });
 
