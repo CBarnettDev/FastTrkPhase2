@@ -41,11 +41,10 @@ export async function signupHandler(request, reply) {
       userId: user.id,
       email: user.email,
     });
- reply.setCookie("token", token, {
-      httpOnly: true,
-      secure: true,  
+    reply.setCookie("token", token, {
+       secure: true,  
       path: "/",
-      sameSite: "none",
+      sameSite: "lax",
       maxAge: 60 * 60 * 24 * 7,
     });
     return reply.code(201).send({
@@ -95,9 +94,8 @@ export async function loginHandler(request, reply) {
     });
 
     reply.setCookie("token", token, {
-      httpOnly: true,
-      secure: true,  
-      sameSite: "none",
+       secure: true,  
+      sameSite: "lax",
       path: "/",
       maxAge: 60 * 60 * 24 * 7,
     });
