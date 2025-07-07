@@ -45,7 +45,7 @@ export async function signupHandler(request, reply) {
       httpOnly: true,
       secure: true, 
       domain: '.fasttrak.ai',
-      sameSite: "none", // required for cross-site cookies
+      sameSite: "lax", 
       path: "/",
       maxAge: 60 * 60 * 24 * 7,
     });
@@ -99,7 +99,7 @@ export async function loginHandler(request, reply) {
       httpOnly: true,
       secure: true, 
       domain: '.fasttrak.ai',
-      sameSite: "none", // required for cross-site cookies
+      sameSite: "lax",
       path: "/",
       maxAge: 60 * 60 * 24 * 7,
     });
