@@ -41,15 +41,14 @@ export async function signupHandler(request, reply) {
       userId: user.id,
       email: user.email,
     });
-
-    reply.setCookie("token", token, {
+ reply.setCookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+      secure: true, 
+      domain: '.fasttrak.ai',
+      sameSite: "none", // required for cross-site cookies
       path: "/",
       maxAge: 60 * 60 * 24 * 7,
     });
-
     return reply.code(201).send({
       user: {
         id: user.id,
@@ -98,7 +97,8 @@ export async function loginHandler(request, reply) {
 
     reply.setCookie("token", token, {
       httpOnly: true,
-      secure: true, // always true in cross-site HTTPS
+      secure: true, 
+      domain: '.fasttrak.ai',
       sameSite: "none", // required for cross-site cookies
       path: "/",
       maxAge: 60 * 60 * 24 * 7,
