@@ -18,7 +18,9 @@ export async function signupHandler(request, reply) {
       return reply.code(400).send({ message: "Missing required fields" });
     }
 
-    const existing = await request.server.prisma.user.findUnique({ where: { email } });
+    const existing = await request.server.prisma.user.findUnique({
+      where: { email },
+    });
     if (existing) {
       return reply.code(400).send({ message: "Email already in use" });
     }
@@ -26,10 +28,19 @@ export async function signupHandler(request, reply) {
     const hashedPassword = await request.server.hashPassword(password);
 
     const user = await request.server.prisma.user.create({
-      data: { name, email, password: hashedPassword, companyName, logo: logoBuffer },
+      data: {
+        name,
+        email,
+        password: hashedPassword,
+        companyName,
+        logo: logoBuffer,
+      },
     });
 
-    const token = request.server.jwt.sign({ userId: user.id, email: user.email });
+    const token = request.server.jwt.sign({
+      userId: user.id,
+      email: user.email,
+    });
 
     reply.setCookie("token", token, {
       httpOnly: true,
@@ -70,17 +81,25 @@ export async function loginHandler(request, reply) {
       return reply.code(400).send({ message: "Missing credentials" });
     }
 
-    const user = await request.server.prisma.user.findUnique({ where: { email } });
-    if (!user || !(await request.server.comparePassword(password, user.password))) {
+    const user = await request.server.prisma.user.findUnique({
+      where: { email },
+    });
+    if (
+      !user ||
+      !(await request.server.comparePassword(password, user.password))
+    ) {
       return reply.code(401).send({ message: "Invalid credentials" });
     }
 
-    const token = request.server.jwt.sign({ userId: user.id, email: user.email });
+    const token = request.server.jwt.sign({
+      userId: user.id,
+      email: user.email,
+    });
 
     reply.setCookie("token", token, {
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
-      sameSite: process.env.NODE_ENV === "production" ? "strict" : "lax",
+      secure: true, // always true in cross-site HTTPS
+      sameSite: "none", // required for cross-site cookies
       path: "/",
       maxAge: 60 * 60 * 24 * 7,
     });
