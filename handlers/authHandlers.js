@@ -41,10 +41,12 @@ export async function signupHandler(request, reply) {
       userId: user.id,
       email: user.email,
     });
-    reply.setCookie("token", token, {
-       secure: true,  
+ reply.setCookie("token", token, {
+      httpOnly: true,
+      secure: true, 
+      domain: '.fasttrk.ai',
       path: "/",
-      sameSite: "lax",
+      sameSite: "none",
       maxAge: 60 * 60 * 24 * 7,
     });
     return reply.code(201).send({
@@ -93,10 +95,12 @@ export async function loginHandler(request, reply) {
       email: user.email,
     });
 
-    reply.setCookie("token", token, {
-       secure: true,  
-      sameSite: "lax",
+  reply.setCookie("token", token, {
+      httpOnly: true,
+      secure: true, 
+      domain: '.fasttrk.ai',
       path: "/",
+      sameSite: "none",
       maxAge: 60 * 60 * 24 * 7,
     });
 
